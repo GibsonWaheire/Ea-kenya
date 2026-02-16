@@ -515,13 +515,13 @@ function CartModal({ isOpen, onClose, products }) {
 }
 
 // Main App
-function App() {
+function AppContent() {
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
   const [showCart, setShowCart] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
   const [openFaq, setOpenFaq] = useState(null)
-  const { user } = useAuth()
+  const { user } = useAuth() || {}
 
   const products = defaultProducts
 
@@ -533,8 +533,7 @@ function App() {
   }
 
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-900 text-white">
         {/* Navigation */}
         <nav className="fixed top-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -753,8 +752,13 @@ function App() {
         <CartModal isOpen={showCart} onClose={() => setShowCart(false)} products={products} />
         {user && <UserDashboard isOpen={showDashboard} onClose={() => setShowDashboard(false)} />}
       </div>
-    </AuthProvider>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  )
+}
